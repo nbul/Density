@@ -26,7 +26,7 @@ I = str2double(parameters{3});
 bundling= str2double(parameters{4});
 Eccentricity= str2double(parameters{5});
 
-usedefault = questdlg(strcat('Which threshold methos?'),'Settings','Edge','Otsu','kmeans','Otsu');
+usedefault = questdlg(strcat('Which threshold methos?'),'Settings','Edge','Otsu','2DOtsu','Otsu');
 if strcmp(usedefault, 'Otsu')
     method = 0;
 elseif strcmp(usedefault, '2DOtsu')
@@ -37,9 +37,9 @@ end
 
 currdir = pwd;
 addpath(pwd);
-m_added_norm = zeros(45,26);
+m_added_norm = zeros(45,11);
 m_added_norm(:,1) = bincenter;
-Value = zeros(45,26);
+Value = zeros(45,11);
 Value(:,1) = bincenter;
 mts_density = zeros(1, 10);
 mts_area = zeros(1, 10);
@@ -61,14 +61,14 @@ longside = Ind + 2*shortside-1;
 Length = zeros(1,MTnumber);
 result_dir = '/Users/nataliabulgakova/MT-project/Robustness/Densityvalidation';
 cd('/Users/nataliabulgakova/MT-project/Robustness/Densityvalidation');
-image_dir_name = ['MTs_', num2str(MTnumber), '_SD' num2str(distribution),'_int',...
-    num2str(I),'_bund',num2str(bundling),'_Ecc',num2str(Eccentricity),'_', num2str(method)];
-if exist([result_dir,'/', image_dir_name],'dir') == 0
-    mkdir(result_dir,image_dir_name);
-end
-image_dir = [result_dir,'/', image_dir_name];
-cd(image_dir);
-for k=1:25
+% image_dir_name = ['MTs_', num2str(MTnumber), '_SD' num2str(distribution),'_int',...
+%     num2str(I),'_bund',num2str(bundling),'_Ecc',num2str(Eccentricity),'_', num2str(method)];
+% if exist([result_dir,'/', image_dir_name],'dir') == 0
+%     mkdir(result_dir,image_dir_name);
+% end
+% image_dir = [result_dir,'/', image_dir_name];
+% cd(image_dir);
+for k=1:10
     %% Generate random dots within the cell
     rng('shuffle');
     X = randi(shortside, MTnumber,1);
@@ -184,45 +184,6 @@ for k=1:25
         Mat2 = hist3(Mat,'Nbins',[256, 256]);
         threshold = TwoDOtsumine(Mat2, length(Mat));
         im_bin_c = imbinarize(imadjust(image_MT_gray/255),threshold*0.7/255);
-    elseif method == 3
-        %         Mat = zeros((shortside-2)*(longside-2),3);
-        im_adjusted = imadjust(image_MT_gray/255);
-                counter4=0;
-                for xc=2:(shortside-1)
-                    for yc=2:(longside-1)
-                        counter4=counter4+1;
-                        Mat(counter4,1) = im_adjusted(yc,xc);
-                        Mat(counter4,2) = (im_adjusted(yc-1,xc-1) + im_adjusted(yc-1,xc) + im_adjusted(yc-1,xc+1) +...
-                            im_adjusted(yc+1,xc-1) + im_adjusted(yc+1,xc) + im_adjusted(yc+1,xc+1) +...
-                            im_adjusted(yc,xc-1) + im_adjusted(yc,xc+1))/8;
-                        median_mat = im_adjusted(yc-1:yc+1,xc-1:xc+1);
-                        Mat(counter4,3) = median(median_mat(:));
-                    end
-                end
-        
-        myfunc = @(X,K)(kmeans(X, K, 'replicate',10));
-        eva = evalclusters(image_MT_gray(:),myfunc,'DaviesBouldin',...
-            'klist',2:10);
-       
-        km = kmeans(Mat,eva.OptimalK,'replicate',10);
-        km2 = reshape(km, longside-2,shortside-2);
-        image_MT_small = image_MT_gray(2:end-1,2:end-1);
-        thr = zeros(eva.OptimalK,1);
-        for clust = 1:eva.OptimalK
-            thr(clust) = mean(image_MT_small(km2==clust));
-        end
-        [Num1, Idx1] = min(thr);
-        
-        km2 = km2 - 1;
-        km3 = image_MT_gray .* km2;
-        km4 = image_MT_gray .* (1-km2);
-        if max(max(km4)) > max(max(km3))
-            km3 = km4;
-        end
-        km3 = km3(:);
-        km3(km3 ==0) =[];
-        threshold = min(km3);
-        im_bin_c = imbinarize(im_adjusted,threshold*mean(km4(:))/median(image_MT_gray(:)));
     end
     %% Generate Cell Masks.
     signal_original = image_MT_gray .* im_bin_c;
@@ -275,12 +236,12 @@ for k=1:25
         kurt(k) = 0;
         skew(k) = 0;
     end
-    image = figure;
-    imshow(image_MT_gray, [0 255]);
-    image_filename = ['MTs_', num2str(MTnumber), '_SD' num2str(distribution),'_int',num2str(I),...
-        '_bund',num2str(bundling),'_Ecc',num2str(Eccentricity),'_', num2str(k),'_', num2str(method), '.tif'];
-    print(image, '-dtiff', '-r150', image_filename);
-    close all
+%     image = figure;
+%     imshow(image_MT_gray, [0 255]);
+%     image_filename = ['MTs_', num2str(MTnumber), '_SD' num2str(distribution),'_int',num2str(I),...
+%         '_bund',num2str(bundling),'_Ecc',num2str(Eccentricity),'_', num2str(k),'_', num2str(method), '.tif'];
+%     print(image, '-dtiff', '-r150', image_filename);
+%     close all
     
     %% MTSD
     %Apply Sobel Filter over a MTs image to test it
