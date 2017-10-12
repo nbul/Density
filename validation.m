@@ -8,7 +8,7 @@ shortside = 200;
 
 distribution = 30;
 I = 25;
-bundling = 1;
+bundling = 0;
 method = 1;
 %% Parameters
 bin_size = 4;
@@ -83,7 +83,14 @@ for k=1:10
         end
     end
     
-    bundled = randi(bundling, MTnumber,1);
+    if bundling > 0
+        for i=1:bundling
+            X(MTnumber-bundling+i)=X(i);
+            Y(MTnumber-bundling+i)=Y(i);
+            angles(MTnumber-bundling+i,1)=angles(i,1);
+        end
+    end
+    
     %% Line parameters and start/end points
     a = 1./tand(angles);
     b = Y - a.*X;
@@ -146,7 +153,7 @@ for k=1:10
     image = zeros(longside,shortside);
     image_MT_gray = image;
     for i = 1:MTnumber
-        image_MT = insertShape(image,'line',intersect(i,:), 'linewidth', 3, 'Color', [I*bundled(i) I*bundled(i) I*bundled(i)]);
+        image_MT = insertShape(image,'line',intersect(i,:), 'linewidth', 3, 'Color', [I I I]);
         image_MT_gray = image_MT_gray + image_MT(:,:,1);
     end
     
@@ -163,11 +170,12 @@ for k=1:10
         bins = (min(A2)+((A2(2)-A2(1))/2)):((A2(2)-A2(1))):(max(A2)-((A2(2)-A2(1))/2));
         [XOut,YOut] = prepareCurveData(bins,A1);
         fo = fitoptions('gauss1', 'Lower', [0 min(A2) 0], 'Upper', [Inf max(A2) Inf]);
-        [threshold, gof_edges] = fit(XOut, YOut, 'gauss1', fo);
-        im_bin_c = imbinarize(image_MT_gray,threshold.b1*0.7);
+        [thr, gof_edges] = fit(XOut, YOut, 'gauss1', fo);
+        threshold(k) = thr.b1;
+        im_bin_c = imbinarize(image_MT_gray,threshold(k)*0.7);
     elseif method == 0
         im_bin_c = imbinarize(imadjust(image_MT_gray/255),graythresh(imadjust(image_MT_gray/255))*0.7);
-        threshold = graythresh(imadjust(image_MT_gray/255));
+        threshold(k) = graythresh(image_MT_gray/255);
     elseif method == 2
         Mat = zeros((shortside-2)*(longside-2),2);
         counter4=0;
@@ -182,9 +190,21 @@ for k=1:10
             end
         end
         Mat2 = hist3(Mat,'Nbins',[256, 256]);
-        threshold = TwoDOtsumine(Mat2, length(Mat));
-        im_bin_c = imbinarize(imadjust(image_MT_gray/255),threshold*0.7/255);
+        threshold(k) = TwoDOtsumine(Mat2, length(Mat));
+        im_bin_c = imbinarize(imadjust(image_MT_gray/255),threshold(k)*0.7/255);
+    elseif method == 3
+        image2 = image_MT_gray(:);
+        km = kmeans(image2,2,'replicate',5);
+        thr = zeros(2,1);
+        for clust = 1:2
+            thr(clust) = mean(image2(km==clust));
+        end
+        [Num1, Idx1] = min(thr);
+        threshold(k) = max(image2(km==Idx1));
+        im_bin_c = imbinarize(im2double(image_MT_gray/255),double(threshold(k))/255);
     end
+    
+    
     %% Generate Cell Masks.
     signal_original = image_MT_gray .* im_bin_c;
     background_original = image_MT_gray .* (ones(longside,shortside) - im_bin_c);
@@ -305,7 +325,7 @@ for k=1:10
         Value(i,k+1)=0;
         for l=1:MTnumber
             if angles(l)>=binrange(i) && angles(l)<binrange(i+1)
-                Value(i,k+1) = Value(i,k+1) + Length(l)*bundled(l);
+                Value(i,k+1) = Value(i,k+1) + Length(l);
             end
         end
     end

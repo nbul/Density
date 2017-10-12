@@ -1,5 +1,4 @@
-  %% Generate random dots within the cell
-    rng('shuffle');
+  rng('shuffle');
     X = randi(shortside, MTnumber,1);
     Y = randi(longside, MTnumber,1);
     %% Generate angles with a given distribution
@@ -12,7 +11,14 @@
         end
     end
     
-    bundled = randi(bundling, MTnumber,1);
+    if bundling > 0
+        for i=1:bundling
+            X(MTnumber-bundling+i)=X(i);
+            Y(MTnumber-bundling+i)=Y(i);
+            angles(MTnumber-bundling+i,1)=angles(i,1);
+        end
+    end
+    
     %% Line parameters and start/end points
     a = 1./tand(angles);
     b = Y - a.*X;
@@ -75,7 +81,7 @@
     image = zeros(longside,shortside);
     image_MT_gray = image;
     for i = 1:MTnumber
-        image_MT = insertShape(image,'line',intersect(i,:), 'linewidth', 3, 'Color', [I*bundled(i) I*bundled(i) I*bundled(i)]);
+        image_MT = insertShape(image,'line',intersect(i,:), 'linewidth', 3, 'Color', [I I I]);
         image_MT_gray = image_MT_gray + image_MT(:,:,1);
     end
     

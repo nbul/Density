@@ -25,16 +25,17 @@ for k=1:cells
     
     myfunc = @(X,K)(kmeans(X, K, 'replicate',5));
     eva = evalclusters(Mat,myfunc,'DaviesBouldin',...
-        'klist',2:8);
+        'klist',2:15);
     
     km = kmeans(Mat,eva.OptimalK,'replicate',5);
     km2 = reshape(km, longside-2,shortside-2);
+    Image2_small = image_MT_gray(2:end-1,2:end-1);
     thr = zeros(eva.OptimalK,1);
     for clust = 1:eva.OptimalK
-        thr(clust) = mean(image_MT(km2==clust));
+        thr(clust) = mean(Image2_small(km2==clust));
     end
     [Num1, Idx1] = min(thr);
-    threshold(k) = max(image_MT(km2==Idx1));
+    threshold(k) = max(Image2_small(km2==Idx1));
     im_bin_c = imbinarize(image_MT_gray,threshold(k));
     
     calcdens;
