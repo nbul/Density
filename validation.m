@@ -50,13 +50,13 @@ kurt = zeros(1, 10);
 skew = zeros(1, 10);
 
 long_side = zeros(1, (4*shortside));
-for i=(2*shortside):(10*shortside)
+for i=(shortside):(10*shortside)
     selected_signal = ones(i,shortside);
     to_analyse_o = regionprops(selected_signal, selected_signal,'Eccentricity');
-    long_side(i-2*shortside+1) = abs(to_analyse_o.Eccentricity-Eccentricity);
+    long_side(i-shortside+1) = abs(to_analyse_o.Eccentricity-Eccentricity);
 end
 [Ecc, Ind] = min(long_side);
-longside = Ind + 2*shortside-1;
+longside = Ind + shortside-1;
 
 Length = zeros(1,MTnumber);
 result_dir = '/Users/nataliabulgakova/MT-project/Robustness/Densityvalidation';
@@ -68,7 +68,7 @@ cd('/Users/nataliabulgakova/MT-project/Robustness/Densityvalidation');
 % end
 % image_dir = [result_dir,'/', image_dir_name];
 % cd(image_dir);
-for k=1:10
+for k=1:3
     %% Generate random dots within the cell
     rng('shuffle');
     X = randi(shortside, MTnumber,1);
