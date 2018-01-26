@@ -35,7 +35,7 @@
     
     % Uniformity
     Uniformity(k) = 100 * (1 - sum(abs(to_analyse_all.PixelValues - mean(to_analyse_all.PixelValues))./...
-        (to_analyse_all.PixelValues + mean(to_analyse_all.PixelValues)))/length(to_analyse_all.PixelValues));
+        mean(to_analyse_all.PixelValues))/length(to_analyse_all.PixelValues));
     %Sparseness
     Spars(k) = calcSparseness(to_analyse_o.PixelValues/mean(to_analyse_o.PixelValues(to_analyse_o.PixelValues>0)),1);
     

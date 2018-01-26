@@ -5,6 +5,7 @@ addpath(pwd);
 warning('off','stats:kmeans:FailedToConvergeRep');
 setup;
 setcell;
+threshold = zeros(length(cells),1);
 for k=1:cells
     MT;
     % Threshold
@@ -23,9 +24,11 @@ for k=1:cells
         end
     end
     
-    myfunc = @(X,K)(kmeans(X, K, 'replicate',5));
-    eva = evalclusters(Mat,myfunc,'DaviesBouldin',...
-        'klist',2:15);
+    clust2 = zeros((longside-2) * (shortside-2),14);
+    parfor cl = 2:15
+        clust2(:,cl-1) = kmeans(Mat, cl, 'replicate',5);
+    end
+    eva = evalclusters(Mat,clust2,'DaviesBouldin');
     
     km = kmeans(Mat,eva.OptimalK,'replicate',5);
     km2 = reshape(km, longside-2,shortside-2);
