@@ -22,6 +22,10 @@ vonmises_fit_dist_sum;
 summary(:,8) = SD';
 % MT theoretical
 summary(:,9) = mu'+90;
+% Sdr
+summary(:,10) = Sdr';
+% Sdq
+summary(:,11) = Sdq';
 
 % Signal area
 Averages(counterMT,1) = MTnumber;
@@ -50,3 +54,10 @@ Averages(counterMT,15) = sqrt(var(summary(:, 8))/length(summary(:, 8)));
 Averages(counterMT,16) = mean(summary(:, 9));
 Averages(counterMT,17) = sqrt(var(summary(:, 9))/length(summary(:, 9)));
 Averages(counterMT,18) = length(summary(:,1));
+
+% Sdr
+Averages(counterMT,19) = mean(summary(:,10));
+Averages(counterMT,20) = sqrt(var(summary(:,10))/length(summary(:,10)));
+% Sdq
+Averages(counterMT,21) = mean(summary(:,11));
+Averages(counterMT,22) = sqrt(var(summary(:,11))/length(summary(:,11)));
