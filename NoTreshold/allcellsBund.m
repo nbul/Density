@@ -55,8 +55,8 @@ Averages(counterB,17) = sqrt(var(summary(:, 9))/length(summary(:, 9)));
 Averages(counterB,18) = length(summary(:,1));
 
 % Sdr
-Averages(counterMT,19) = mean(summary(:,10));
-Averages(counterMT,20) = sqrt(var(summary(:,10))/length(summary(:,10)));
+Averages(counterB,19) = mean(summary(:,10));
+Averages(counterB,20) = sqrt(var(summary(:,10))/length(summary(:,10)));
 % Sdq
-Averages(counterMT,21) = mean(summary(:,11));
-Averages(counterMT,22) = sqrt(var(summary(:,11))/length(summary(:,11)));
+Averages(counterB,21) = mean(summary(:,11));
+Averages(counterB,22) = sqrt(var(summary(:,11))/length(summary(:,11)));

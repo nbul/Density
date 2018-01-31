@@ -17,8 +17,8 @@
     Sdr_temp = 0;
     for i = 1:(longside - 1)
         for z = 1:(shortside - 1)
-            Sdr_temp = Sdr_temp + (abs(image_MT_gray(i+1,k)-image_MT_gray(i,k))/mean(to_analyse_all.PixelValues))^2;
-            Sdr_temp = Sdr_temp + (abs(image_MT_gray(i,k+1)-image_MT_gray(i,k))/mean(to_analyse_all.PixelValues))^2;
+            Sdr_temp = Sdr_temp + (abs(image_MT_gray(i+1,k)-image_MT_gray(i,k))/min(to_analyse_all.PixelValues))^2;
+            Sdr_temp = Sdr_temp + (abs(image_MT_gray(i,k+1)-image_MT_gray(i,k))/min(to_analyse_all.PixelValues))^2;
         end
     end
     Sdr(k) = (sqrt(Sdr_temp + 1) - 1)/length(to_analyse_all.PixelValues);
