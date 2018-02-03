@@ -1,0 +1,40 @@
+%% Density data from signal and background
+selected_signal = ones(longside,shortside);
+to_analyse_all = regionprops(selected_signal, image_MT_gray,'PixelValues');
+[px, py] = gradient(image_MT_gray);
+% Uniformity
+Uniformity(k) = 100 * (1 - sqrt(var(to_analyse_all.PixelValues))/mean(to_analyse_all.PixelValues));
+%Sparseness
+Spars(k) = calcSparseness(to_analyse_all.PixelValues/mean(to_analyse_all.PixelValues),1);
+
+% Kurtosis and skewness
+skew(k) = skewness(to_analyse_all.PixelValues);
+
+%Sdq - the root mean square gradient
+Sdq(k) = sqrt(sum(px(:).*px(:)+(py(:).*py(:)))/length(to_analyse_all.PixelValues));
+
+% kmeans threshold
+clust2 = zeros(longside * shortside,14);
+parfor cl = 2:15
+    clust2(:,cl-1) = kmeans(image_MT_gray(:), cl, 'replicate',5);
+end
+eva = evalclusters(image_MT_gray(:),clust2,'DaviesBouldin');
+km = kmeans(image_MT_gray(:),eva.OptimalK,'replicate',5);
+km2 = reshape(km, longside,shortside);
+thr = zeros(eva.OptimalK,1);
+for clust = 1:eva.OptimalK
+    thr(clust) = mean(image_MT_gray(km==clust));
+end
+[Num1, Idx1] = min(thr);
+threshold(k) = max(image_MT_gray(km2==Idx1));
+im_bin_c = imbinarize(image_MT_gray,threshold(k));
+signal_original = image_MT_gray .* im_bin_c;
+% Signal Area
+mts_area(k) = 100*sum(signal_original(:)>0)/longside/shortside;
+%bundling
+to_analyse_all = regionprops(im_bin_c,signal_original,'PixelValues');
+mts_bundling(k) = (mean(to_analyse_all.PixelValues)-...
+            min(to_analyse_all.PixelValues)) / ...
+            threshold(k);
+
+close all

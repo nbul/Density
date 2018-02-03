@@ -26,13 +26,14 @@ summary(:,9) = mu'+90;
 summary(:,10) = Sdr';
 % Sdq
 summary(:,11) = Sdq';
+% Threshold 
+summary(:,12) = threshold';
+% Area
+summary(:,13) = mts_area';
+% Bundling
+summary(:,14) = mts_bundling';
 
-% SdrM
-summary(:,12) = SdrM';
-% Sdq
-summary(:,13) = SdqM';
-
-% Signal area
+%% Averaged values
 Averages(counterMT,1) = MTnumber;
 % Uniformity
 Averages(counterMT,2) = mean(summary(:,2));
@@ -58,17 +59,21 @@ Averages(counterMT,15) = sqrt(var(summary(:, 8))/length(summary(:, 8)));
 % MT direction theoretical
 Averages(counterMT,16) = mean(summary(:, 9));
 Averages(counterMT,17) = sqrt(var(summary(:, 9))/length(summary(:, 9)));
-Averages(counterMT,18) = length(summary(:,1));
 
 % Sdr
-Averages(counterMT,19) = mean(summary(:,10));
-Averages(counterMT,20) = sqrt(var(summary(:,10))/length(summary(:,10)));
+Averages(counterMT,18) = mean(summary(:,10));
+Averages(counterMT,19) = sqrt(var(summary(:,10))/length(summary(:,10)));
 % Sdq
-Averages(counterMT,21) = mean(summary(:,11));
-Averages(counterMT,22) = sqrt(var(summary(:,11))/length(summary(:,11)));
-% SdrM
-Averages(counterMT,23) = mean(summary(:,12));
-Averages(counterMT,24) = sqrt(var(summary(:,12))/length(summary(:,12)));
-% Sdq
-Averages(counterMT,25) = mean(summary(:,13));
-Averages(counterMT,26) = sqrt(var(summary(:,13))/length(summary(:,13)));
+Averages(counterMT,20) = mean(summary(:,11));
+Averages(counterMT,21) = sqrt(var(summary(:,11))/length(summary(:,11)));
+% Threshold
+Averages(counterMT,22) = mean(summary(:,12));
+Averages(counterMT,23) = sqrt(var(summary(:,12))/length(summary(:,12)));
+% Area
+Averages(counterMT,24) = mean(summary(:,13));
+Averages(counterMT,25) = sqrt(var(summary(:,13))/length(summary(:,13)));
+% Bundling
+Averages(counterMT,26) = mean(summary(:,14));
+Averages(counterMT,27) = sqrt(var(summary(:,14))/length(summary(:,14)));
+
+Averages(counterMT,28) = length(summary(:,1));
