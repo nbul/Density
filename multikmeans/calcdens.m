@@ -12,10 +12,12 @@ skew(k) = skewness(to_analyse_all.PixelValues);
 
 %Sdq - the root mean square gradient
 Sdq(k) = sqrt(sum(px(:).*px(:)+(py(:).*py(:)))/length(to_analyse_all.PixelValues));
+%Sdr - the developed interfacial area ratio
 
+Sdr(k) = (sqrt(1+sum(px(:).*px(:)+(py(:).*py(:))))-1)/length(to_analyse_all.PixelValues);
 % kmeans threshold
 clust2 = zeros(longside * shortside,14);
-parfor cl = 2:15
+parfor cl = 2:20
     clust2(:,cl-1) = kmeans(image_MT_gray(:), cl, 'replicate',5);
 end
 eva = evalclusters(image_MT_gray(:),clust2,'DaviesBouldin');
@@ -32,9 +34,8 @@ signal_original = image_MT_gray .* im_bin_c;
 % Signal Area
 mts_area(k) = 100*sum(signal_original(:)>0)/longside/shortside;
 %bundling
-to_analyse_all = regionprops(im_bin_c,signal_original,'PixelValues');
-mts_bundling(k) = (mean(to_analyse_all.PixelValues)-...
-            min(to_analyse_all.PixelValues)) / ...
+mts_bundling(k) = (mean(signal_original(signal_original>0))-...
+            min(signal_original(signal_original>0))) / ...
             threshold(k);
 
 close all
