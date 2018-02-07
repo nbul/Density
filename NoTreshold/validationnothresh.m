@@ -8,12 +8,12 @@ MTnumber = 25;
 I = 25;
 setup;
 
-for I = 15:10:35
-    for Eccentricity = 0.7:0.1:0.9
-        setcell;
+for Eccentricity = 0.7:0.1:0.9
+    setcell;
+    for I = 15:10:35        
         for distribution = 30:10:40
             bundling = 0;
-            counterMT = 0;            
+            counterMT = 0;
             Averages = zeros(1,18);
             for MTnumber = 25:25:250
                 counterMT = counterMT +1;
@@ -31,7 +31,7 @@ for I = 15:10:35
                 'Sparseness','sem', 'Skewness','sem', 'Kurtosis','sem',...
                 'MTSD','sem', 'MT direction','sem', ...
                 'MTSD theor','sem', 'MT direction theor','sem','Cell number',...
-                'Sdr','sem','Sdq','sem', 'SdrM','sem','SdqM','sem'};
+                'Sdr','sem','Sdq','sem', 'Med Curvature','sem','Gaus Curvature','sem'};
             summary_filename = ['MTnumber_','SD', num2str(distribution),'_int',...
                 num2str(I),'_Ecc',num2str(Eccentricity),'_summary.csv'];
             
@@ -58,7 +58,7 @@ for I = 15:10:35
                 'Sparseness','sem', 'Skewness','sem', 'Kurtosis','sem',...
                 'MTSD','sem', 'MT direction','sem', ...
                 'MTSD theor','sem', 'MT direction theor','sem','Cell number',...
-                'Sdr','sem','Sdq','sem', 'SdrM','sem','SdqM','sem'};
+                'Sdr','sem','Sdq','sem', 'Med Curvature','sem','Gaus Curvature','sem'};
             summary_filename = ['Bundling_','SD', num2str(distribution),'_int',...
                 num2str(I),'_Ecc',num2str(Eccentricity),'_summary.csv'];
             cd(result_dir);

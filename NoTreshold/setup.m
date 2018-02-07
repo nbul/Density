@@ -28,8 +28,8 @@ Length = zeros(1,MTnumber);
 
 
 
-result_dir = '/Volumes/DataGurdon/Natalia Bulgakova/MT methods paper/Fig7/No threshold';
-cd('/Volumes/DataGurdon/Natalia Bulgakova/MT methods paper/Fig7/No threshold');
+result_dir = '/Users/nataliabulgakova/Desktop/test';
+cd('/Users/nataliabulgakova/Desktop/test');
 % image_dir_name = ['MTs_', num2str(MTnumber), '_SD' num2str(distribution),'_int',...
 %     num2str(I),'_bund',num2str(bundling),'_Ecc',num2str(Eccentricity)];
 % if exist([result_dir,'/', image_dir_name],'dir') == 0

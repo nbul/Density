@@ -28,9 +28,9 @@ summary(:,10) = Sdr';
 summary(:,11) = Sdq';
 
 % SdrM
-summary(:,12) = SdrM';
+summary(:,12) = MCurve';
 % Sdq
-summary(:,13) = SdqM';
+summary(:,13) = GCurve';
 
 % Signal area
 Averages(counterMT,1) = MTnumber;

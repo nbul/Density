@@ -27,9 +27,9 @@ summary(:,10) = Sdr';
 % Sdq
 summary(:,11) = Sdq';
 % Sdr
-summary(:,12) = SdrM';
+summary(:,12) = MCurve';
 % Sdq
-summary(:,13) = SdqM';
+summary(:,13) = GCurve';
 
 Averages(counterB,1) = bundling;
 % Uniformity
