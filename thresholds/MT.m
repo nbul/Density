@@ -12,10 +12,10 @@
     end
     
     if bundling > 0
-        for i=1:ceil(MTnumber*bundling/100)
-            X(MTnumber-ceil(MTnumber*bundling/100)+i)=X(i);
-            Y(MTnumber-ceil(MTnumber*bundling/100)+i)=Y(i);
-            angles(MTnumber-ceil(MTnumber*bundling/100)+i,1)=angles(i,1);
+        for i=1:bundling
+            X(MTnumber-bundling+i)=X(i);
+            Y(MTnumber-bundling+i)=Y(i);
+            angles(MTnumber-bundling+i,1)=angles(i,1);
         end
     end
     
