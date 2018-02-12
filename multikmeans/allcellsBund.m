@@ -31,6 +31,7 @@ summary(:,12) = mts_area';
 % Bundling
 summary(:,13) = mts_bundling';
 summary(:,14) = Nculsters';
+summary(:,15) = space';
 
 Averages(counterB,1) = bundling;
 % Uniformity
@@ -73,4 +74,7 @@ Averages(counterB,25) = sqrt(var(summary(:,13))/length(summary(:,13)));
 % N clusters
 Averages(counterB,26) = mean(summary(:,14));
 Averages(counterB,27) = sqrt(var(summary(:,14))/length(summary(:,14)));
-Averages(counterB,28) = length(summary(:,1));
+% Space
+Averages(counterB,28) = mean(summary(:,15));
+Averages(counterB,29) = sqrt(var(summary(:,15))/length(summary(:,15)));
+Averages(counterB,30) = length(summary(:,1));

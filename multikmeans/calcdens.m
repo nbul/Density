@@ -16,25 +16,13 @@ Sdq(k) = sqrt(sum(px(:).*px(:)+(py(:).*py(:)))/length(to_analyse_all.PixelValues
 
 Sdr(k) = (sqrt(1+sum(px(:).*px(:)+(py(:).*py(:))))-1)/length(to_analyse_all.PixelValues);
 % kmeans threshold
- Mat = zeros((shortside-2)*(longside-2),3);
-    counter4=0;
-    for xc=2:(shortside-1)
-        for yc=2:(longside-1)
-            counter4=counter4+1;
-            Mat(counter4,1) = image_MT_gray(yc,xc);
-            Mat(counter4,2) = (image_MT_gray(yc-1,xc-1) + image_MT_gray(yc-1,xc) + image_MT_gray(yc-1,xc+1) +...
-                image_MT_gray(yc+1,xc-1) + image_MT_gray(yc+1,xc) + image_MT_gray(yc+1,xc+1) +...
-                image_MT_gray(yc,xc-1) + image_MT_gray(yc,xc+1))/8;
-            median_mat = image_MT_gray(yc-1:yc+1,xc-1:xc+1);
-            Mat(counter4,3) = median(median_mat(:));
-        end
-    end
 
-clust2 = zeros((longside-2) * (shortside-2),14);
+clust2 = zeros(longside * shortside,14);
+ImageX = image_MT_gray(:);
 parfor cl = 2:20
-    clust2(:,cl-1) = kmeans(Mat, cl, 'replicate',5);
+    clust2(:,cl-1) = kmeans(ImageX, cl, 'replicate',5);
 end
-eva = evalclusters(Mat,clust2,'DaviesBouldin');
+eva = evalclusters(image_MT_gray(:),clust2,'DaviesBouldin');
 km = kmeans(image_MT_gray(:),eva.OptimalK,'replicate',5);
 Nculsters(k) = eva.OptimalK;
 km2 = reshape(km, longside,shortside);
@@ -50,7 +38,16 @@ signal_original = image_MT_gray .* im_bin_c;
 mts_area(k) = 100*sum(signal_original(:)>0)/longside/shortside;
 %bundling
 mts_bundling(k) = (mean(image_MT_gray(signal_original~= 0),1)-...
-            min(signal_original(signal_original>0))) / ...
-            min(signal_original(signal_original>0));
+    min(signal_original(signal_original>0))) / ...
+    min(signal_original(signal_original>0));
+%Spaces
+im_bin_b = imcomplement(im_bin_c);
+ccbg = bwconncomp(im_bin_b);
+Space1 = regionprops(ccbg, 'Area');
+if isempty(Space1)==0
+    space(k) = mean(cat(1, Space1.Area));
+else
+    space(k) =0;
+end
 
 close all
