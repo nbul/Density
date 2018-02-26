@@ -35,10 +35,10 @@ end
 
 
 cd(result_dir);
-csvwrite('Skewness.csv',AveragesSq);
-csvwrite('Skewness_sem.csv',AveragesSqsem);
-csvwrite('SignalArea.csv',AveragesSA);
-csvwrite('SignalArea_sem.csv',AveragesSAsem);
+csvwrite('Skewness.csv',averagesSq);
+csvwrite('Skewness_sem.csv',averagesSqsem);
+csvwrite('SignalArea.csv',averagesSA);
+csvwrite('SignalArea_sem.csv',averagesSAsem);
 cd(currdir);
 
 
