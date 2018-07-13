@@ -32,6 +32,9 @@ summary(:,12) = mts_area';
 summary(:,13) = mts_bundling';
 summary(:,14) = Nculsters';
 summary(:,15) = space';
+summary(:,16) = Skew2';
+summary(:,17) = Ent1';
+summary(:,18) = Ent2';
 
 Averages(counterB,1) = bundling;
 % Uniformity
@@ -77,4 +80,13 @@ Averages(counterB,27) = sqrt(var(summary(:,14))/length(summary(:,14)));
 % Space
 Averages(counterB,28) = mean(summary(:,15));
 Averages(counterB,29) = sqrt(var(summary(:,15))/length(summary(:,15)));
-Averages(counterB,30) = length(summary(:,1));
+%Skewness 2
+Averages(counterB,30) = mean(summary(:,16));
+Averages(counterB,31) = sqrt(var(summary(:,16))/length(summary(:,16)));
+% Entropy all
+Averages(counterB,32) = mean(summary(:,17));
+Averages(counterB,33) = sqrt(var(summary(:,17))/length(summary(:,17)));
+% Entropy above threshold
+Averages(counterB,34) = mean(summary(:,18));
+Averages(counterB,35) = sqrt(var(summary(:,18))/length(summary(:,18)));
+Averages(counterB,36) = length(summary(:,1));

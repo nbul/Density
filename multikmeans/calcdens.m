@@ -50,4 +50,7 @@ else
     space(k) =0;
 end
 
+Skew2(k) = skewness(image_MT_gray(signal_original~= 0));
+Ent1 = entropy(double(image_MT_gray)/255);
+Ent2 = entropy(double(image_MT_gray(signal_original~= 0))/255);
 close all
