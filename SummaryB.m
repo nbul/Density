@@ -15,7 +15,7 @@ summaryB = [(1:1:cells)',intensity',intensity_mts', mts_area', mts_density'...
 Averages_B(counterB,1) = bundling;
 Averages_B(counterB,2:2:size(summaryB(:,2:end),2)*2) = mean(summaryB(:,2:end),1);
 Averages_B(counterB,3:2:(size(summaryB(:,2:end),2)*2+1))...
-    = sqrt(var(counterB(:,2:end),1)/size(summaryB(:,2:end),1));
+    = sqrt(var(summaryB(:,2:end),1)/size(summaryB(:,2:end),1));
 Averages_B(counterB,size(summaryB(:,2:end),2)*2+2) = cells;
 
 

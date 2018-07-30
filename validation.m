@@ -37,7 +37,7 @@ for Eccentricity = 0.7:0.1:0.9
             csvwrite_with_headers(summary_filename,Averages_MT,headersMT);
             cd(currdir);
             MTnumber = 100;
-            AveragesB = zeros(1,18);
+            Averages_B = zeros(1,18);
             counterB = 0;
             for bundling = 0:10:40
                 counterB = counterB + 1;
@@ -56,7 +56,7 @@ for Eccentricity = 0.7:0.1:0.9
             summary_filename = ['Bundling_','SD', num2str(distribution),'_int',...
                 num2str(I),'_Ecc',num2str(Eccentricity),'_summary.csv'];
             cd(result_dir);
-            csvwrite_with_headers(summary_filename,AveragesB,headers);
+            csvwrite_with_headers(summary_filename,Averages_B,headersB);
             cd(currdir);
         end
     end
