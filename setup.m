@@ -11,6 +11,7 @@ binrange = -90 : bin_size : 90;
 bincenter=binrange(1:(end-1)) + bin_size/2;
 Gx = [-2 -1 0 1 2;-3 -2 0 2 3;-4 -3 0 3 4;-3 -2 0 2 3;-2 -1 0 1 2];
 Gy = Gx';
+stretch_factor = 0.5;
 %% Setting parameters
 m_added_norm = zeros(45,cells+1);
 m_added_norm(:,1) = bincenter;

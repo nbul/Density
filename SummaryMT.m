@@ -1,9 +1,11 @@
 %% Summary
 
 SDexp = SD;
+mu(mu<0) = 180+mu(mu<0);
 muexp = mu;
 m_added_norm = Value;
 vonmises;
+mu = mu + 90;
 mu(mu<0) = 180+mu(mu<0);
 
 summaryMT = [(1:1:cells)',intensity',intensity_mts', mts_area', mts_density'...

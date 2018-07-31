@@ -3,7 +3,7 @@
 clear y_forfit1 y_forfit x y bin counter kappa SD mu p alpha mu_degrees
 
 %% Assign memory
-stretch_factor = 0.5;
+
 counter = size(m_added_norm);
 y_forfit = zeros(1,counter(2)-1);
 kappa = zeros(1,counter(2)-1);
